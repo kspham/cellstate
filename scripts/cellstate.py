@@ -1,12 +1,13 @@
 __author__ = 'nadya'
 import math
+import mst
 
 class Point:
     def __init__(self, sample_name, coordinates):
         self.name = sample_name
         self.coords = coordinates
 
-def standard_normalization(points):
+def standard_normalization(points, _):
     for point in points:
         length = math.sqrt(sum([x * x for x in point.coords])) / 10000
         point.coords = [float(x) / length for x in point.coords]
@@ -27,13 +28,20 @@ def read_points(filename):
             line = file.readline()
     return points
 
-def cell_state(input_file, normalization, distance_metric):
+def cell_state(input_file, normalization, cutoff, distance_metric):
     points = read_points(input_file)
-    normalization(points)
-    return mst(points, distance_metric)
+    normalization(points, cutoff)
+    return mst.mst(points, distance_metric)
 
 
-#points = readPoints("Processed_data_htseqcount_83samples.txt")
+"""mst1 = cell_state("data/data.txt", standard_normalization, None, mst.euclidean_distance)
+mst2 = cell_state("data/data.txt", binary_normalization, 500, mst.euclidean_distance)
+common = 0
+for edge in mst1:
+    if edge in mst2:
+        common += 1
+print(common)""
+
 
 
 
