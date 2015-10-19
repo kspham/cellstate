@@ -38,6 +38,8 @@ def mst(points, distance):
     mst = []
     for (_, i, j) in edges:
         if find(nodes, i) != find(nodes, j):
-            mst.append(i, j)
+            mst.append((i, j))
             join(nodes, i, j)
+            if len(mst) == (n - 1):
+                break
     return mst
